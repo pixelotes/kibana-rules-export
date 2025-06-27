@@ -16,7 +16,8 @@ Command-line tool to export enabled detection rules from Kibana to CSV or Markdo
 - [jq](https://stedolan.github.io/jq/)
 - [bashly](https://bashly.dannyb.co/install) (if you want to build it yourself)
 
-## Building the script (optional)
+## Building the script
+
 ### Setup
 
 ```bash
