@@ -34,12 +34,12 @@ bashly generate
 ./kibana-rules-export --username USER --password PASS [--url URL] [--page_size PAGE_SIZE] [--format csv|markdown]
 ```
 
-## Options
+### Options
 - --username (required): Kibana username
 - --password (required): Kibana password
 - --url (optional): Kibana base URL (default: http://localhost:5601)
 - --page_size (optional): Number of results returned per page (default: 1000)
 - --format (optional): Output format (csv or markdown, default: csv)
 
-## Output
+### Output
 rules.csv or rules.md will be created in the current directory.
