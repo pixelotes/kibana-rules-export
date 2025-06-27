@@ -1,0 +1,29 @@
+name: kibana-rules-export
+help: Export enabled detection rules from Kibana to CSV or Markdown
+version: "1.0"
+
+flags:
+  - long: --username
+    arg: USERNAME
+    required: true
+    help: Kibana username
+  - long: --password
+    arg: PASSWORD
+    required: true
+    help: Kibana password
+  - long: --url
+    arg: URL
+    default: http://localhost:5601
+    help: Kibana base URL
+  - long: --page_size
+    arg: PAGE_SIZE
+    required: false
+    default: "1000"
+    help: Number of results returned per page
+  - long: --format
+    arg: FORMAT
+    default: csv
+    allowed: [csv, markdown]
+    help: Output format (csv or markdown)
+
+commands: []
