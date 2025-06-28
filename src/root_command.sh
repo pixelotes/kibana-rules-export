@@ -91,9 +91,7 @@ else
       joined="\"$val\""
       val=$joined
     else
-      [[ ${#val} -gt 200 ]] && val="${val:0:200}…"
-      val="\`$val\`"
-      val+=(" | ")
+      val="$val"
     fi
     row+=("$val")
   done
@@ -102,7 +100,7 @@ else
     out="$(IFS=,; echo "${row[*]}")"
     echo "$out" >> "$OUTPUT"
   else
-    printf "| %s |\n" "$(IFS=' | '; echo "${row[*]}")" >> "$OUTPUT"
+    printf "|%s|\n" "$(IFS='|'; echo "${row[*]}")" >> "$OUTPUT"
   fi
 
   done
