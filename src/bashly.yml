@@ -29,5 +29,7 @@ flags:
     default: csv
     allowed: [csv, markdown, json]
     help: Output format (csv, markdown or json)
+  - long: --insecure
+    help: Skip SSL certificate verification
 
 commands: []
