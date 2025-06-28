@@ -52,10 +52,11 @@ if [[ "$FORMAT" == "csv" ]]; then
   echo "$header" > "$OUTPUT"
 elif [[ "$FORMAT" == "markdown" ]]; then
   IFS=',' read -ra headers <<< "$header"
-  # Build markdown table header and divider
   {
+    # Header row
     printf "| %s |\n" "$(IFS=' | '; echo "${headers[*]}")"
-    printf "|%s|\n" "$(printf ' --- |%.0s' "${headers[@]}")"
+    # Divider row — each header cell gets a '---'
+    printf "| %s |\n" "$(printf '--- | %.0s' "${headers[@]}")"
   } > "$OUTPUT"
 fi
 
