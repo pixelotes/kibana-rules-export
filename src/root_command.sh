@@ -22,28 +22,19 @@ else
 fi
 
 # Fetch rules from Kibana
-echo "📡 Fetching enabled rules from $KIBANA_URL ..."
+curl_flags=(-sSL --fail)
+[[ -n "$SKIP_TLS" ]] && curl_flags+=(--insecure)
 
-if [[ "$SKIP_TLS" == "1" ]] || [[ -n "$SKIP_TLS" ]]; then
-  # Add --insecure flag to curl commands
-  response=$(curl -s -k -u "$USERNAME:$PASSWORD" \
-  -H "kbn-xsrf: true" \
-  --insecure \
-  "$KIBANA_URL/api/detection_engine/rules/_find?filter=alert.attributes.enabled:true&per_page=$PAGE_SIZE")
-else
-  response=$(curl -s -k -u "$USERNAME:$PASSWORD" \
-  -H "kbn-xsrf: true" \
-  "$KIBANA_URL/api/detection_engine/rules/_find?filter=alert.attributes.enabled:true&per_page=$PAGE_SIZE")
-fi
+if response=$(curl "${curl_flags[@]}" \
+    -u "$USERNAME:$PASSWORD" \
+    -H "kbn-xsrf: true" \
+    "$KIBANA_URL/api/detection_engine/rules/_find?filter=alert.attributes.enabled:true&per_page=$PAGE_SIZE" 2>&1); then
 
-# Exit if the response doesn't contain data
-if ! echo "$response" | jq -e '.data' > /dev/null 2>&1; then
-    echo "❌ Failed to fetch rules from Kibana or invalid response format"
-    echo "Response: $response"
-    exit 1
+  echo "🔍 Fetched $(echo "$response" | jq '.data | length') rules."
 else
-    LINES=$(echo "$response" | jq | wc -l)
-    echo "🔍 The response format looks correct and contains $LINES lines"
+  echo "❌ Failed to fetch rules from Kibana:"
+  echo "$response"
+  exit 1
 fi
 
 # Parse and export
