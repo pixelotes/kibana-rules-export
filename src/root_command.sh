@@ -90,8 +90,6 @@ else
       val="${val//\"/\"\"}"
       joined="\"$val\""
       val=$joined
-    else
-      val="$val"
     fi
     row+=("$val")
   done
