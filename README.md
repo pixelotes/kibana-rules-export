@@ -1,57 +1,98 @@
 # kibana-rules-export
 
-Command-line tool to export enabled detection rules from Kibana to CSV or Markdown format using the Detection Engine API.
+Command-line tool to export enabled detection rules from Kibana to JSON, CSV or Markdown format using the Detection Engine KiAPI.
 
-## Features
+| Attributes       | &nbsp;
+|------------------|-------------
+| Version:         | 1.0
 
-- Connects to a Kibana instance
-- Retrieves all enabled detection rules
-- Outputs a table with: Name, Description, Tags, Query
-- Supports output in CSV or Markdown format
+## Usage
 
-## Requirements
+```bash
+kibana-rules-export [OPTIONS]
+```
 
-- Bash
-- curl
-- [jq](https://stedolan.github.io/jq/)
-- [bashly](https://bashly.dannyb.co/install) (if you want to build it yourself)
+## Dependencies
 
-## Building the script
+#### *jq*
+
+
+
+#### *curl*
+
+
+
+#### *bash*
+
+
+
+## Options
+
+#### *--username USERNAME*
+
+Kibana username
+
+| Attributes      | &nbsp;
+|-----------------|-------------
+| Required:       | ✓ Yes
+
+#### *--password PASSWORD*
+
+Kibana password
+
+| Attributes      | &nbsp;
+|-----------------|-------------
+| Required:       | ✓ Yes
+
+#### *--url URL*
+
+Kibana base URL
+
+| Attributes      | &nbsp;
+|-----------------|-------------
+| Default Value:  | http://localhost:5601
+
+#### *--page_size PAGE_SIZE*
+
+Number of results returned per page
+
+| Attributes      | &nbsp;
+|-----------------|-------------
+| Default Value:  | 1000
+
+#### *--format FORMAT*
+
+Output format (csv, markdown or json)
+
+| Attributes      | &nbsp;
+|-----------------|-------------
+| Default Value:  | csv
+| Allowed Values: | csv, markdown, json
+
+#### *--insecure*
+
+Skip SSL certificate verification
+
+## Building the script manually
 
 ### Setup
 
-```bash
+First, install bashly to build the project (requires Ruby 2.6+)
+~~~bash
 gem install bashly
-```
+~~~
 
 ### Build
-```bash
+Once bashly is installed, compile the project.
+~~~bash
 bashly generate
-```
+~~~
+There should be a new "kibana-rules-export" script as a result.
+Try running it with:
+~~~bash
+./kibana-rules-export --help
+~~~
 
-## Usage
-```bash
-./kibana-rules-export --username USER --password PASS [--url URL] [--page_size PAGE_SIZE] [--format csv|markdown] [--insecure]
-```
+## Output
+rules.json, rules.csv or rules.md will be created in the current directory.
 
-### Options
-- --username (required): Kibana username
-- --password (required): Kibana password
-- --url (optional): Kibana base URL (default: http://localhost:5601)
-- --page_size (optional): Number of results returned per page (default: 1000)
-- --format (optional): Output format (csv or markdown, default: csv)
-- --insecure (optional): Skips TLS verification
-
-### Examples
-- Connect to a local Kibana server with self-signed certificates
-  ```bash
-  ./kibana-rules-export \
-      --username elastic \
-      --password changeme \
-      --url https://localhost:5601 \
-      --format csv \
-      --insecure
-  ```
-
-### Output
-rules.csv or rules.md will be created in the current directory.
