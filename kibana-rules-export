@@ -149,7 +149,7 @@ kibana_rules_export_usage() {
     printf "    %s\n" "Default: http://localhost:5601"
     echo
 
-    printf "  %s\n" "--filter FILTER"
+    printf "  %s\n" "--query, -q FILTER"
     printf "    Query filter. Default is enabled alerts.\n"
     printf "    %s\n" "Default: alert.attributes.enabled:true"
     echo
@@ -305,14 +305,14 @@ parse_requirements() {
         fi
         ;;
 
-      --filter)
+      --query | -q)
 
         if [[ -n ${2+x} ]]; then
-          args['--filter']="$2"
+          args['--query']="$2"
           shift
           shift
         else
-          printf "%s\n" "--filter requires an argument: --filter FILTER" >&2
+          printf "%s\n" "--query requires an argument: --query, -q FILTER" >&2
           exit 1
         fi
         ;;
@@ -389,7 +389,7 @@ parse_requirements() {
   fi
 
   [[ -n ${args['--url']:-} ]] || args['--url']="http://localhost:5601"
-  [[ -n ${args['--filter']:-} ]] || args['--filter']="alert.attributes.enabled:true"
+  [[ -n ${args['--query']:-} ]] || args['--query']="alert.attributes.enabled:true"
   [[ -n ${args['--page_size']:-} ]] || args['--page_size']="1000"
   [[ -n ${args['--format']:-} ]] || args['--format']="csv"
 

@@ -52,7 +52,7 @@ Kibana base URL
 |-----------------|-------------
 | Default Value:  | http://localhost:5601
 
-#### *--filter FILTER*
+#### *--query, -q FILTER*
 
 Query filter. Default is enabled alerts.
 
