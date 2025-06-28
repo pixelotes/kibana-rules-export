@@ -50,7 +50,8 @@ flags:
     arg: URL
     default: http://localhost:5601
     help: Kibana base URL
-  - long: --filter
+  - long: --query
+    short: -q
     arg: FILTER
     default: "alert.attributes.enabled:true"
     help: Query filter. Default is enabled alerts.
