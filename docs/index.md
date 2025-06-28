@@ -22,6 +22,10 @@ kibana-rules-export [OPTIONS]
 
 
 
+#### *bash*
+
+
+
 ## Options
 
 #### *--username USERNAME*

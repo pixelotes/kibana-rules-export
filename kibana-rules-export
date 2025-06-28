@@ -221,6 +221,13 @@ parse_requirements() {
     deps['curl']="$(command -v curl | head -n1)"
   fi
 
+  if ! command -v bash >/dev/null 2>&1; then
+    printf "missing dependency: bash\n" >&2
+    missing_deps=1
+  else
+    deps['bash']="$(command -v bash | head -n1)"
+  fi
+
   if [[ -n $missing_deps ]]; then
     exit 1
   fi
