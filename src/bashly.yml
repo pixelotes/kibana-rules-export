@@ -55,6 +55,11 @@ flags:
     required: false
     default: "1000"
     help: Number of results returned per page
+  - long: --column
+    short: -c
+    arg: COLUMN
+    repeatable: true
+    help: "Specify output columns (e.g. name,description,severity). Can be used multiple times"
   - long: --format
     short: -f
     arg: FORMAT
