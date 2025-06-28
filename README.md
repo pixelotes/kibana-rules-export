@@ -60,6 +60,14 @@ Number of results returned per page
 |-----------------|-------------
 | Default Value:  | 1000
 
+#### *--column, -c COLUMN*
+
+Specify output columns (e.g. name,description,severity). Can be used multiple times
+
+| Attributes      | &nbsp;
+|-----------------|-------------
+| Repeatable:     |  ✓ Yes
+
 #### *--format, -f FORMAT*
 
 Output format (csv, markdown or json)

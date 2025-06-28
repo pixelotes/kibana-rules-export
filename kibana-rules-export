@@ -123,6 +123,10 @@ kibana_rules_export_usage() {
     printf "    %s\n" "Default: 1000"
     echo
 
+    printf "  %s\n" "--column, -c COLUMN (repeatable)"
+    printf "    Specify output columns (e.g. name,description,severity). Can be used\n    multiple times\n"
+    echo
+
     printf "  %s\n" "--format, -f FORMAT"
     printf "    Output format (csv, markdown or json)\n"
     printf "    %s\n" "Allowed: csv, markdown, json"
@@ -273,6 +277,23 @@ parse_requirements() {
           shift
         else
           printf "%s\n" "--page_size requires an argument: --page_size PAGE_SIZE" >&2
+          exit 1
+        fi
+        ;;
+
+      --column | -c)
+
+        if [[ -n ${2+x} ]]; then
+          escaped="$(printf '%q' "$2")"
+          if [[ -z ${args['--column']+x} ]]; then
+            args['--column']="$escaped"
+          else
+            args['--column']="${args['--column']} $escaped"
+          fi
+          shift
+          shift
+        else
+          printf "%s\n" "--column requires an argument: --column, -c COLUMN" >&2
           exit 1
         fi
         ;;
