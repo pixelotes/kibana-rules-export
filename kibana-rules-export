@@ -50,6 +50,15 @@ root_command() {
     fi
   done
 
+  # Set output
+  if [[ "$FORMAT" == "csv" ]]; then
+    OUTPUT="rules.csv"
+  elif [[ "$FORMAT" == "markdown" ]]; then
+    OUTPUT="rules.md"
+  else
+    OUTPUT="rules.json"
+  fi
+
   # Generate headers dynamically from the specified columns
   header=""
   for col in "${COLUMNS[@]}"; do
@@ -60,12 +69,17 @@ root_command() {
   if [[ "$FORMAT" == "csv" ]]; then
     echo "$header" > "$OUTPUT"
   elif [[ "$FORMAT" == "markdown" ]]; then
-    IFS=',' read -ra headers <<< "$header"
+    formatted="| ${header//,/ | } |"
+
+    # Generate the markdown separator line
+    separator="|"
+    for _ in "${COLUMNS[@]}"; do
+      separator+=" --- |"
+    done
+
     {
-      # Header row
-      printf "| %s |\n" "$(IFS=' | '; echo "${headers[*]}")"
-      # Divider row — each header cell gets a '---'
-      printf "| %s |\n" "$(printf '--- | %.0s' "${headers[@]}")"
+      echo "$formatted"
+      echo "$separator"
     } > "$OUTPUT"
   fi
 
@@ -84,16 +98,19 @@ root_command() {
 
       if [[ "$FORMAT" == "csv" ]]; then
         val="${val//\"/\"\"}"
+        joined="\"$val\""
+        val=$joined
       else
         [[ ${#val} -gt 200 ]] && val="${val:0:200}…"
         val="\`$val\`"
+        val+=(" | ")
       fi
       row+=("$val")
     done
 
     if [[ "$FORMAT" == "csv" ]]; then
       out="$(IFS=,; echo "${row[*]}")"
-      echo "\"$out\"" >> "$OUTPUT"
+      echo "$out" >> "$OUTPUT"
     else
       printf "| %s |\n" "$(IFS=' | '; echo "${row[*]}")" >> "$OUTPUT"
     fi
