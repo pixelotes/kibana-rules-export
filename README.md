@@ -1,6 +1,6 @@
 # kibana-rules-export
 
-Command-line tool to export enabled detection rules from Kibana to JSON, CSV or Markdown format using the Detection Engine KiAPI.
+Command-line tool to export enabled detection rules from Kibana to JSON, CSV or Markdown format using the Detection Engine API from Kibana.
 
 | Attributes       | &nbsp;
 |------------------|-------------
