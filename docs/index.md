@@ -1,6 +1,6 @@
 # kibana-rules-export
 
-Export enabled detection rules from Kibana to CSV or Markdown
+Command-line tool to export enabled detection rules from Kibana to JSON, CSV or Markdown format using the Detection Engine KiAPI.
 
 | Attributes       | &nbsp;
 |------------------|-------------
@@ -72,6 +72,19 @@ Output format (csv, markdown or json)
 #### *--insecure*
 
 Skip SSL certificate verification
+
+## Building the script manually
+
+### Setup
+
+~~~bash
+gem install bashly
+~~~
+
+### Build
+~~~bash
+bashly generate
+~~~
 
 ## Output
 rules.json, rules.csv or rules.md will be created in the current directory.
