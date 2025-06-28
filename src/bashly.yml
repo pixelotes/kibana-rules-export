@@ -2,6 +2,10 @@ name: kibana-rules-export
 help: Export enabled detection rules from Kibana to CSV or Markdown
 version: "1.0"
 
+dependencies:
+  - jq
+  - curl
+
 flags:
   - long: --username
     arg: USERNAME
