@@ -69,10 +69,14 @@ else
     [[ ${#query} -gt 200 ]] && query="${query:0:200}…"
 
     if [[ "$FORMAT" == "csv" ]]; then
-      name=$(echo "$name" | sed 's/"/""/g')
-      desc=$(echo "$desc" | sed 's/"/""/g')
-      tags=$(echo "$tags" | sed 's/"/""/g')
-      query=$(echo "$query" | sed 's/"/""/g')
+      #name=$(echo "$name" | sed 's/"/""/g')
+      #desc=$(echo "$desc" | sed 's/"/""/g')
+      #tags=$(echo "$tags" | sed 's/"/""/g')
+      #query=$(echo "$query" | sed 's/"/""/g')
+      name=${name//\"/\"\"}
+      desc=${desc//\"/\"\"}
+      tags=${tags//\"/\"\"}
+      query=${query//\"/\"\"}
       echo "\"$name\",\"$desc\",\"$tags\",\"$query\"" >> "$OUTPUT"
     else
       echo "| $name | $desc | $tags | \`$query\` |" >> "$OUTPUT"
