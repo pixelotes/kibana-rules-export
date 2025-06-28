@@ -1,6 +1,6 @@
 name: kibana-rules-export
 version: "1.0"
-help: Command-line tool to export enabled detection rules from Kibana to JSON, CSV or Markdown format using the Detection Engine API from Kibana.
+help: Command-line tool to export enabled detection rules from Kibana to JSON, CSV or Markdown format using the Detection Engine API from Kibana. Its aim is to help documenting the active Kibana security rules. By default, it only returns the enabled rules, but the filter can be customized.
 
 x_markdown_footer: |
   ## Building the script manually
@@ -50,6 +50,10 @@ flags:
     arg: URL
     default: http://localhost:5601
     help: Kibana base URL
+  - long: --filter
+    arg: FILTER
+    default: "alert.attributes.enabled:true"
+    help: Query filter. Default is enabled alerts.
   - long: --page_size
     arg: PAGE_SIZE
     required: false
