@@ -28,7 +28,7 @@ kibana-rules-export [OPTIONS]
 
 ## Options
 
-#### *--username USERNAME*
+#### *--username, -u USERNAME*
 
 Kibana username
 
@@ -36,7 +36,7 @@ Kibana username
 |-----------------|-------------
 | Required:       | ✓ Yes
 
-#### *--password PASSWORD*
+#### *--password, -p PASSWORD*
 
 Kibana password
 
@@ -60,7 +60,7 @@ Number of results returned per page
 |-----------------|-------------
 | Default Value:  | 1000
 
-#### *--format FORMAT*
+#### *--format, -f FORMAT*
 
 Output format (csv, markdown or json)
 
@@ -69,7 +69,7 @@ Output format (csv, markdown or json)
 | Default Value:  | csv
 | Allowed Values: | csv, markdown, json
 
-#### *--insecure*
+#### *--insecure, -i*
 
 Skip SSL certificate verification
 

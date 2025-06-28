@@ -114,11 +114,11 @@ kibana_rules_export_usage() {
   if [[ -n "$long_usage" ]]; then
     printf "%s\n" "Options:"
 
-    printf "  %s\n" "--username USERNAME (required)"
+    printf "  %s\n" "--username, -u USERNAME (required)"
     printf "    Kibana username\n"
     echo
 
-    printf "  %s\n" "--password PASSWORD (required)"
+    printf "  %s\n" "--password, -p PASSWORD (required)"
     printf "    Kibana password\n"
     echo
 
@@ -132,13 +132,13 @@ kibana_rules_export_usage() {
     printf "    %s\n" "Default: 1000"
     echo
 
-    printf "  %s\n" "--format FORMAT"
+    printf "  %s\n" "--format, -f FORMAT"
     printf "    Output format (csv, markdown or json)\n"
     printf "    %s\n" "Allowed: csv, markdown, json"
     printf "    %s\n" "Default: csv"
     echo
 
-    printf "  %s\n" "--insecure"
+    printf "  %s\n" "--insecure, -i"
     printf "    Skip SSL certificate verification\n"
     echo
 
@@ -238,26 +238,26 @@ parse_requirements() {
     key="$1"
     case "$key" in
 
-      --username)
+      --username | -u)
 
         if [[ -n ${2+x} ]]; then
           args['--username']="$2"
           shift
           shift
         else
-          printf "%s\n" "--username requires an argument: --username USERNAME" >&2
+          printf "%s\n" "--username requires an argument: --username, -u USERNAME" >&2
           exit 1
         fi
         ;;
 
-      --password)
+      --password | -p)
 
         if [[ -n ${2+x} ]]; then
           args['--password']="$2"
           shift
           shift
         else
-          printf "%s\n" "--password requires an argument: --password PASSWORD" >&2
+          printf "%s\n" "--password requires an argument: --password, -p PASSWORD" >&2
           exit 1
         fi
         ;;
@@ -286,19 +286,19 @@ parse_requirements() {
         fi
         ;;
 
-      --format)
+      --format | -f)
 
         if [[ -n ${2+x} ]]; then
           args['--format']="$2"
           shift
           shift
         else
-          printf "%s\n" "--format requires an argument: --format FORMAT" >&2
+          printf "%s\n" "--format requires an argument: --format, -f FORMAT" >&2
           exit 1
         fi
         ;;
 
-      --insecure)
+      --insecure | -i)
 
         args['--insecure']=1
         shift
@@ -320,11 +320,11 @@ parse_requirements() {
   done
 
   if [[ -z ${args['--username']+x} ]]; then
-    printf "missing required flag: --username USERNAME\n" >&2
+    printf "missing required flag: --username, -u USERNAME\n" >&2
     exit 1
   fi
   if [[ -z ${args['--password']+x} ]]; then
-    printf "missing required flag: --password PASSWORD\n" >&2
+    printf "missing required flag: --password, -p PASSWORD\n" >&2
     exit 1
   fi
 
