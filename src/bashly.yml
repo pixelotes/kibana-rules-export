@@ -23,7 +23,7 @@ flags:
   - long: --format
     arg: FORMAT
     default: csv
-    allowed: [csv, markdown]
-    help: Output format (csv or markdown)
+    allowed: [csv, markdown, json]
+    help: Output format (csv, markdown or json)
 
 commands: []
