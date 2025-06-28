@@ -4,6 +4,7 @@ KIBANA_URL=${args[--url]:-"https://localhost:5601"}
 USERNAME=${args[--username]:-"elastic"}
 PASSWORD=${args[--password]:-"changeme"}
 FORMAT=${args[--format]:-"csv"}
+FILTER=${args[--filter]:-"alert.attributes.enabled:true"}
 PAGE_SIZE=${args[--page_size]:-"1000"}
 SKIP_TLS=${args[--insecure]}
 # Load requested columns or use default set
@@ -20,7 +21,7 @@ curl_flags=(-sSL --fail)
 if response=$(curl "${curl_flags[@]}" \
     -u "$USERNAME:$PASSWORD" \
     -H "kbn-xsrf: true" \
-    "$KIBANA_URL/api/detection_engine/rules/_find?filter=alert.attributes.enabled:true&per_page=$PAGE_SIZE" 2>&1); then
+    "$KIBANA_URL/api/detection_engine/rules/_find?filter=$FILTER&per_page=$PAGE_SIZE" 2>&1); then
 
   echo "🔍 Fetched $(echo "$response" | jq '.data | length') rules."
 else
