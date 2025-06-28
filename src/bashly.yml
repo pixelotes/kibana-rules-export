@@ -6,14 +6,21 @@ x_markdown_footer: |
   ## Building the script manually
   
   ### Setup
-  
+
+  First, install bashly to build the project (requires Ruby 2.6+)
   ~~~bash
   gem install bashly
   ~~~
   
   ### Build
+  Once bashly is installed, compile the project.
   ~~~bash
   bashly generate
+  ~~~
+  There should be a new "kibana-rules-export" script as a result.
+  Try running it with:
+  ~~~bash
+  ./kibana-rules-export --help
   ~~~
   
   ## Output
