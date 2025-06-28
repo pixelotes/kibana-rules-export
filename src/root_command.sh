@@ -42,7 +42,7 @@ if ! echo "$response" | jq -e '.data' > /dev/null 2>&1; then
     echo "Response: $response"
     exit 1
 else
-    LINES=$(echo $response | jq | wc -l)
+    LINES=$(echo "$response" | jq | wc -l)
     echo "🔍 The response format looks correct and contains $LINES lines"
 fi
 
