@@ -34,6 +34,9 @@ jobs:
       - name: Generate CLI
         run: bashly generate -e production
 
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+
       - name: Commit generated script
         run: |
           git config --global user.name "github-actions[bot]"
