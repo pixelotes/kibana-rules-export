@@ -43,13 +43,13 @@ jobs:
           SHELLCHECK_OPTS: -e SC2034 -e SC2001
           
       - name: Generate docs
-        run: bashly render :markdown docs
+        run: bashly render :markdown . & mv index.mv README.md
         
       - name: Commit generated script
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add kibana-rules-export
-          git add docs/index.md
+          git add README.md
           git commit -m "Auto-compiled CLI with bashly" || echo "Nothing to commit"
           git push origin HEAD:main
