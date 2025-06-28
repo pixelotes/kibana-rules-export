@@ -6,6 +6,13 @@ PASSWORD=${args[--password]:-"changeme"}
 FORMAT=${args[--format]:-"csv"}
 PAGE_SIZE=${args[--page_size]:-"1000"}
 SKIP_TLS=${args[--insecure]}
+# Load requested columns or use default set
+if [[ -n "${args[--column]}" ]]; then
+  eval "COLUMNS=(${args[--column]})"
+else
+  COLUMNS=(name description tags query)
+fi
+
 
 # Output file based on format
 if [[ "$FORMAT" == "csv" ]]; then
@@ -36,6 +43,17 @@ else
   echo "$response"
   exit 1
 fi
+
+# Get available keys from the first rule
+AVAILABLE=($(echo "$response" | jq -r '.data[0] | keys[]'))
+
+for col in "${COLUMNS[@]}"; do
+  if ! [[ " ${AVAILABLE[*]} " == *" $col "* ]]; then
+    echo "❌ Invalid column: $col"
+    echo "Valid options: ${AVAILABLE[*]}"
+    exit 1
+  fi
+done
 
 # Parse and export
 echo "🔧 Processing the response..."
