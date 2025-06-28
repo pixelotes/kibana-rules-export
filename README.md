@@ -31,7 +31,7 @@ bashly generate
 
 ## Usage
 ```bash
-./kibana-rules-export --username USER --password PASS [--url URL] [--page_size PAGE_SIZE] [--format csv|markdown]
+./kibana-rules-export --username USER --password PASS [--url URL] [--page_size PAGE_SIZE] [--format csv|markdown] [--insecure]
 ```
 
 ### Options
@@ -41,6 +41,17 @@ bashly generate
 - --page_size (optional): Number of results returned per page (default: 1000)
 - --format (optional): Output format (csv or markdown, default: csv)
 - --insecure (optional): Skips TLS verification
+
+### Examples
+- Connect to a local Kibana server with self-signed certificates
+  ```bash
+  ./kibana-rules-export \
+      --username elastic \
+      --password changeme \
+      --url https://localhost:5601 \
+      --format csv \
+      --insecure
+  ```
 
 ### Output
 rules.csv or rules.md will be created in the current directory.
