@@ -24,7 +24,9 @@ jobs:
           ruby-version: '2.6'
 
       - name: Install bashly
-        run: gem install bashly --include-dependencies
+        run: |
+          gem install psych
+          gem install bashly
 
       - name: Generate CLI
         run: bashly generate
