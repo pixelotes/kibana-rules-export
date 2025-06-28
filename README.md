@@ -96,3 +96,7 @@ Try running it with:
 ## Output
 rules.json, rules.csv or rules.md will be created in the current directory.
 
+## License
+
+This project is licensed under the [MIT License](./LICENSE). See the **LICENSE** file for full details.
+
