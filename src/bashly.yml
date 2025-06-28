@@ -1,6 +1,6 @@
 name: kibana-rules-export
-help: Export enabled detection rules from Kibana to CSV or Markdown
 version: "1.0"
+help: Export enabled detection rules from Kibana to CSV or Markdown
 long_help: |
   :markdown
   # kibana-rules-export
