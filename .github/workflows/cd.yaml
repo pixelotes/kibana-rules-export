@@ -32,7 +32,7 @@ jobs:
           gem install bashly
 
       - name: Generate CLI
-        run: bashly generate
+        run: bashly generate -e production
 
       - name: Commit generated script
         run: |
