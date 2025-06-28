@@ -52,14 +52,14 @@ root_command() {
       echo "Response: $response"
       exit 1
   else
-      LINES=$(echo $response | jq | wc -l)
+      LINES=$(echo "$response" | jq | wc -l)
       echo "🔍 The response format looks correct and contains $LINES lines"
   fi
 
   # Parse and export
   echo "🔧 Processing the response..."
   if [ "$FORMAT" == "json" ]; then
-      echo $response | jq > "$OUTPUT"
+      echo "$response" | jq > "$OUTPUT"
   else
     echo "$response" | jq -r '
       .data[]
@@ -79,10 +79,14 @@ root_command() {
       [[ ${#query} -gt 200 ]] && query="${query:0:200}…"
 
       if [[ "$FORMAT" == "csv" ]]; then
-        name=$(echo "$name" | sed 's/"/""/g')
-        desc=$(echo "$desc" | sed 's/"/""/g')
-        tags=$(echo "$tags" | sed 's/"/""/g')
-        query=$(echo "$query" | sed 's/"/""/g')
+        #name=$(echo "$name" | sed 's/"/""/g')
+        #desc=$(echo "$desc" | sed 's/"/""/g')
+        #tags=$(echo "$tags" | sed 's/"/""/g')
+        #query=$(echo "$query" | sed 's/"/""/g')
+        name=${name//\"/\"\"}
+        desc=${desc//\"/\"\"}
+        tags=${tags//\"/\"\"}
+        query=${query//\"/\"\"}
         echo "\"$name\",\"$desc\",\"$tags\",\"$query\"" >> "$OUTPUT"
       else
         echo "| $name | $desc | $tags | \`$query\` |" >> "$OUTPUT"
