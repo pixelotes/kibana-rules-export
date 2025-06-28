@@ -23,20 +23,6 @@ root_command() {
     COLUMNS=(name description tags query)
   fi
 
-  # Output file based on format
-  if [[ "$FORMAT" == "csv" ]]; then
-    OUTPUT="rules.csv"
-    echo "\"Name\",\"Description\",\"Tags\",\"Query\"" > "$OUTPUT"
-  elif [ "$FORMAT" == "json" ]; then
-    OUTPUT="rules.json"
-  else
-    OUTPUT="rules.md"
-    {
-      echo "| Name | Description | Tags | Query |"
-      echo "|------|-------------|------|-------|"
-    } > "$OUTPUT"
-  fi
-
   # Fetch rules from Kibana
   curl_flags=(-sSL --fail)
   [[ -n "$SKIP_TLS" ]] && curl_flags+=(--insecure)
@@ -64,42 +50,56 @@ root_command() {
     fi
   done
 
+  # Generate headers dynamically from the specified columns
+  header=""
+  for col in "${COLUMNS[@]}"; do
+    header+="${col^},"    # capitalize header
+  done
+  header=${header%,}      # trim trailing comma
+
+  if [[ "$FORMAT" == "csv" ]]; then
+    echo "$header" > "$OUTPUT"
+  elif [[ "$FORMAT" == "markdown" ]]; then
+    IFS=',' read -ra headers <<< "$header"
+    {
+      # Header row
+      printf "| %s |\n" "$(IFS=' | '; echo "${headers[*]}")"
+      # Divider row — each header cell gets a '---'
+      printf "| %s |\n" "$(printf '--- | %.0s' "${headers[@]}")"
+    } > "$OUTPUT"
+  fi
+
   # Parse and export
   echo "🔧 Processing the response..."
   if [ "$FORMAT" == "json" ]; then
       echo "$response" | jq > "$OUTPUT"
   else
-    echo "$response" | jq -r '
-      .data[]
-      | [
-          .name,
-          .description,
-          (.tags | join(", ")),
-          .query
-        ]
-      | @tsv
-    ' | while IFS=$'\t' read -r name desc tags query; do
-      name="${name//|/\\|}"
-      desc=$(echo "$desc" | tr '\n' ' ' | sed 's/|/\\|/g')
-      tags="${tags//|/\\|}"
-      query=$(echo "$query" | tr '\n' ' ' | sed 's/|/\\|/g')
-
-      [[ ${#query} -gt 200 ]] && query="${query:0:200}…"
+    echo "$response" | jq -c '.data[]' | while read -r obj; do
+    row=()
+    for col in "${COLUMNS[@]}"; do
+      val=$(echo "$obj" | jq -r --arg c "$col" '
+        if $c=="tags" then (.tags | join(", "))
+        else .[$c]
+        end' | tr '\n' ' ' | sed 's/|/\\|/g')
 
       if [[ "$FORMAT" == "csv" ]]; then
-        #name=$(echo "$name" | sed 's/"/""/g')
-        #desc=$(echo "$desc" | sed 's/"/""/g')
-        #tags=$(echo "$tags" | sed 's/"/""/g')
-        #query=$(echo "$query" | sed 's/"/""/g')
-        name=${name//\"/\"\"}
-        desc=${desc//\"/\"\"}
-        tags=${tags//\"/\"\"}
-        query=${query//\"/\"\"}
-        echo "\"$name\",\"$desc\",\"$tags\",\"$query\"" >> "$OUTPUT"
+        val="${val//\"/\"\"}"
       else
-        echo "| $name | $desc | $tags | \`$query\` |" >> "$OUTPUT"
+        [[ ${#val} -gt 200 ]] && val="${val:0:200}…"
+        val="\`$val\`"
       fi
+      row+=("$val")
     done
+
+    if [[ "$FORMAT" == "csv" ]]; then
+      out="$(IFS=,; echo "${row[*]}")"
+      echo "\"$out\"" >> "$OUTPUT"
+    else
+      printf "| %s |\n" "$(IFS=' | '; echo "${row[*]}")" >> "$OUTPUT"
+    fi
+
+    done
+
   fi
 
   echo "✅ Done! Output saved to $OUTPUT"
