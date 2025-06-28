@@ -1,6 +1,21 @@
 name: kibana-rules-export
 help: Export enabled detection rules from Kibana to CSV or Markdown
 version: "1.0"
+long_help: |
+  :markdown
+  # kibana-rules-export
+  
+  Command-line tool to export enabled detection rules from Kibana to CSV or Markdown format using the Detection Engine API.
+  
+  ## Features
+  
+  - Connects to a Kibana instance
+  - Retrieves all enabled detection rules
+  - Outputs a table with: Name, Description, Tags, Query
+  - Supports output in CSV or Markdown format
+
+  ---
+
 
 dependencies:
   - jq
