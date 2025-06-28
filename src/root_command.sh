@@ -14,20 +14,6 @@ else
 fi
 
 
-# Output file based on format
-if [[ "$FORMAT" == "csv" ]]; then
-  OUTPUT="rules.csv"
-  echo "\"Name\",\"Description\",\"Tags\",\"Query\"" > "$OUTPUT"
-elif [ "$FORMAT" == "json" ]; then
-  OUTPUT="rules.json"
-else
-  OUTPUT="rules.md"
-  {
-    echo "| Name | Description | Tags | Query |"
-    echo "|------|-------------|------|-------|"
-  } > "$OUTPUT"
-fi
-
 # Fetch rules from Kibana
 curl_flags=(-sSL --fail)
 [[ -n "$SKIP_TLS" ]] && curl_flags+=(--insecure)
