@@ -49,7 +49,7 @@ fi
 # Parse and export
 echo "🔧 Processing the response..."
 if [ "$FORMAT" == "json" ]; then
-    echo $response | jq > "$OUTPUT"
+    echo "$response" | jq > "$OUTPUT"
 else
   echo "$response" | jq -r '
     .data[]
