@@ -5,6 +5,7 @@ USERNAME=${args[--username]:-"elastic"}
 PASSWORD=${args[--password]:-"changeme"}
 FORMAT=${args[--format]:-"csv"}
 PAGE_SIZE=${args[--page_size]:-"1000"}
+SKIP_TLS=${args[--insecure]}
 
 # Output file based on format
 if [[ "$FORMAT" == "csv" ]]; then
@@ -22,9 +23,18 @@ fi
 
 # Fetch rules from Kibana
 echo "📡 Fetching enabled rules from $KIBANA_URL ..."
-response=$(curl -s -k -u "$USERNAME:$PASSWORD" \
+
+if [[ "$SKIP_TLS" == "1" ]] || [[ -n "$SKIP_TLS" ]]; then
+  # Add --insecure flag to curl commands
+  response=$(curl -s -k -u "$USERNAME:$PASSWORD" \
+  -H "kbn-xsrf: true" \
+  --insecure \
+  "$KIBANA_URL/api/detection_engine/rules/_find?filter=alert.attributes.enabled:true&per_page=$PAGE_SIZE")
+else
+  response=$(curl -s -k -u "$USERNAME:$PASSWORD" \
   -H "kbn-xsrf: true" \
   "$KIBANA_URL/api/detection_engine/rules/_find?filter=alert.attributes.enabled:true&per_page=$PAGE_SIZE")
+fi
 
 # Exit if the response doesn't contain data
 if ! echo "$response" | jq -e '.data' > /dev/null 2>&1; then
