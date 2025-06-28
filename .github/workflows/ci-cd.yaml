@@ -43,7 +43,7 @@ jobs:
           SHELLCHECK_OPTS: -e SC2034 -e SC2001
           
       - name: Generate docs
-        run: bashly render :markdown . & mv index.md README.md
+        run: bashly render :markdown . && mv index.md README.md
         
       - name: Commit generated script
         run: |
