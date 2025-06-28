@@ -82,14 +82,13 @@ else
     row+=("$val")
   done
 
-  IFS=, eval 'out="${row[*]}"'
-
   if [[ "$FORMAT" == "csv" ]]; then
+    out="$(IFS=,; echo "${row[*]}")"
     echo "\"$out\"" >> "$OUTPUT"
   else
     printf "| %s |\n" "$(IFS=' | '; echo "${row[*]}")" >> "$OUTPUT"
   fi
-  done
+
 fi
 
 echo "✅ Done! Output saved to $OUTPUT"
