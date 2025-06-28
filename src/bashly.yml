@@ -12,7 +12,7 @@ long_help: |
   - Connects to a Kibana instance
   - Retrieves all enabled detection rules
   - Outputs a table with: Name, Description, Tags, Query
-  - Supports output in CSV or Markdown format
+  - Supports output in **CSV**, **Markdown** or **JSON** formats
 
   ---
 
