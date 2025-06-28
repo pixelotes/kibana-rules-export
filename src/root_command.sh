@@ -4,7 +4,7 @@ KIBANA_URL=${args[--url]:-"https://localhost:5601"}
 USERNAME=${args[--username]:-"elastic"}
 PASSWORD=${args[--password]:-"changeme"}
 FORMAT=${args[--format]:-"csv"}
-FILTER=${args[--filter]:-"alert.attributes.enabled:true"}
+FILTER=${args[--query]:-"alert.attributes.enabled:true"}
 PAGE_SIZE=${args[--page_size]:-"1000"}
 SKIP_TLS=${args[--insecure]}
 # Load requested columns or use default set
