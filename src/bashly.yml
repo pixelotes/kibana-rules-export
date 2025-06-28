@@ -37,10 +37,12 @@ dependencies:
 
 flags:
   - long: --username
+    short: -u
     arg: USERNAME
     required: true
     help: Kibana username
   - long: --password
+    short: -p
     arg: PASSWORD
     required: true
     help: Kibana password
@@ -54,11 +56,13 @@ flags:
     default: "1000"
     help: Number of results returned per page
   - long: --format
+    short: -f
     arg: FORMAT
     default: csv
     allowed: [csv, markdown, json]
     help: Output format (csv, markdown or json)
   - long: --insecure
+    short: -i
     help: Skip SSL certificate verification
 
 commands: []
